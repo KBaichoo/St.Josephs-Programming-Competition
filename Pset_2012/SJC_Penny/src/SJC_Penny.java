@@ -15,9 +15,11 @@ public class SJC_Penny{
 			for(int i = 0; i < itemPrice.length; i++){
 				discountPrice[i] = getDiscountedPrice(itemPrice[i],total);
 			}
-			if(total - calculatePrice(discountPrice) < 10.0){
-				discountPrice[discountPrice.length - 1] = discountPrice[discountPrice.length - 1] + 10 - (total - calculatePrice(discountPrice));
-				discountPrice[discountPrice.length - 1] = ((int)(discountPrice[discountPrice.length - 1] * 100))/100.0;
+			
+			//discount is less than 10
+			if((total - calculatePrice(discountPrice)) > 10){
+				discountPrice[discountPrice.length - 1] = discountPrice[discountPrice.length - 1] + (total - calculatePrice(discountPrice));
+				discountPrice[discountPrice.length - 1] = Math.round(discountPrice[discountPrice.length - 1] * 100) /100.0;
 			}
 			printOutItems(itemName,discountPrice);
 		}
@@ -31,11 +33,11 @@ public class SJC_Penny{
 	
 	public static double getDiscountedPrice(double item, double total){
 		//Gets the discount 
-		double discountOffOfItem = ((int)((item / total ) * 1000));
-		discountOffOfItem = discountOffOfItem / 100;
+		double discountOffOfItem = (item / total) * 10;
+		double discountedPrice = (int)((item - discountOffOfItem) * 100);
 		
 		//returns discounted price
-		return (item - discountOffOfItem);
+		return (discountedPrice / 100);
 	}
 	
 	public static double calculatePrice( double[] items){
